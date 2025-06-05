@@ -10,7 +10,9 @@ from .routes.markdown import bp as markdown_bp
 def create_app(config_class=Config):
     """创建Flask应用实例"""
     # 创建Flask应用
-    app = Flask(__name__, static_folder=None)
+    # 指定前端构建后的静态文件目录，避免在访问根路径时出现找不到目录的问题
+    frontend_static = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend', 'build')
+    app = Flask(__name__, static_folder=frontend_static, static_url_path='')
     
     # 加载配置
     app.config.from_object(config_class)
